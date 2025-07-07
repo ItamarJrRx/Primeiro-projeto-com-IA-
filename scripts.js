@@ -1,27 +1,14 @@
-/*
-let webhook = "https://itamarjunior.app.n8n.cloud/webhook-test/animacao-css"
+let webhook = "https://itamarjunior.app.n8n.cloud/webhook/animacao-css"
 
 async function CliqueiNoBotao() {
   let textoInput = document.querySelector(".input-animacao").value
+  let codigo = document.querySelector(".area-codigo")
+  let areaResultado = document.querySelector(".area-resultado")
 
-  let resposta = await fetch(webhook, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ pergunta: textoInput }),
-  })
-  let resultado = await resposta.json()
-  console.log(resultado)
-
-  let button = document.querySelector(".botao-magica")
-
-  button.disabled = true
-}
-*/
-
-let webhook = "https://itamarjunior.app.n8n.cloud/webhook-test/animacao-css"
-
-async function CliqueiNoBotao() {
-  let textoInput = document.querySelector(".input-animacao").value
+  let botao = document.querySelector(".botao-magica")
+  botao.disabled = true
+  botao.textContent = "Criando..."
+  botao.style.background = "#888"
 
   try {
     let resposta = await fetch(webhook, {
@@ -30,14 +17,17 @@ async function CliqueiNoBotao() {
       body: JSON.stringify({ pergunta: textoInput }),
     })
 
-    let raw = await resposta.text()
-    let resultado
+    let resultado = await resposta.json()
 
-    try {
-      resultado = JSON.parse(raw)
-    } catch {
-      resultado = { mensagem: raw }
-    }
+    let info = JSON.parse(resultado.resposta)
+
+    codigo.innerHTML = info.code
+
+    document.head.insertAdjacentHTML(
+      "beforeend",
+      `<style>${info.style}</style>`
+    )
+    areaResultado.innerHTML = info.preview
 
     console.log("🔁 Resultado recebido:", resultado)
 
@@ -45,4 +35,8 @@ async function CliqueiNoBotao() {
   } catch (erro) {
     console.error("❌ Erro na requisição:", erro)
   }
+
+  botao.disabled = false
+  botao.textContent = "Criar Mágica 🎩"
+  botao.style.background = "#37e359"
 }

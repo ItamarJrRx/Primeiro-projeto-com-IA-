@@ -59,6 +59,10 @@ main {
   align-items: center;
   justify-content: center;
   color: gray;
+  
+  overflow: hidden;
+  position:relative;
+
 }
 input {
   width: 80%;
