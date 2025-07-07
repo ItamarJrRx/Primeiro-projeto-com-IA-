@@ -2,6 +2,8 @@ let webhook = "https://itamarjunior.app.n8n.cloud/webhook/animacao-css"
 
 async function CliqueiNoBotao() {
   let textoInput = document.querySelector(".input-animacao").value
+  document.querySelector(".input-animacao").value = "" // Limpa o campo
+
   let codigo = document.querySelector(".area-codigo")
   let areaResultado = document.querySelector(".area-resultado")
 
